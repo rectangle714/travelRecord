@@ -1,1 +1,1 @@
-# travelRecord
+# 여행기
