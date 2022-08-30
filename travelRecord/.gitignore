@@ -20,6 +20,7 @@ local.properties
 build/*
 gradle/*
 
+
 # External tool builders
 .externalToolBuilders/
 
