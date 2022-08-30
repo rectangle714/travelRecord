@@ -3,8 +3,8 @@
 
 ### Eclipse ###
 .metadata
-bin/
-tmp/
+bin/*
+tmp/*
 *.tmp
 *.bak
 *.swp
@@ -13,9 +13,12 @@ local.properties
 .settings/
 .loadpath
 .recommenders
-.gradle/
+.gradle
 .project
 .classpath
+*.class
+build/*
+gradle/*
 
 # External tool builders
 .externalToolBuilders/
