@@ -1,7 +1,8 @@
-import 'dart:html';
+
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:travel_record_view/test.dart';
 
 void main() {
   runApp(const MyApp());
@@ -78,6 +79,14 @@ class _MyHomePageState extends State<MyHomePage> {
             ElevatedButton(
               onPressed: widget.testAjax,
               child: Text("api 통신 테스트 버튼"),
+            ),
+            ElevatedButton(
+              onPressed: () => Navigator.push(
+                context
+                , MaterialPageRoute(
+                  builder: (context) => TestPage()),
+              ),
+              child: Text("이동"),
             ),
             Padding(
               child: TextField(
