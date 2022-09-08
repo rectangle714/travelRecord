@@ -7,8 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import com.prj.travelRecord.domain.Member;
-import com.prj.travelRecord.repository.MemberRepository;
-
+import com.prj.travelRecord.member.repository.MemberRepository;
+import com.prj.travelRecord.member.service.MemberService;
 @SpringBootTest
 class MemberServiceTest {
 

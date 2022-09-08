@@ -3,6 +3,8 @@ import 'dart:io' show Platform;
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'kakaoLogin.dart';
+import 'login-form.dart';
 
 void main() {
   runApp(const MyApp());
@@ -70,6 +72,8 @@ class MyHomePage extends StatefulWidget {
   State<MyHomePage> createState() => _MyHomePageState();
 }
 
+
+
 class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
 
@@ -81,6 +85,27 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
+
+    void secTest() async {
+
+    var host;
+    if(kIsWeb){
+      host = '127.0.0.1';
+    }
+    else{
+      host = Platform.isAndroid ? '10.0.2.2' : '127.0.0.1'; 
+      log('not web');
+    }
+
+      var url = Uri.parse('http://$host:8080/sec');
+      log('http://$host:8080/sec');
+      var response = await http.get(url);
+
+      print('response.statusCode : ${response.statusCode}');
+      print('response.body : ${response.body}');
+    
+  }
+
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title),
@@ -99,6 +124,25 @@ class _MyHomePageState extends State<MyHomePage> {
             ElevatedButton(
               onPressed: widget.testAjax,
               child: Text("api 통신 테스트 버튼"),
+            ),
+            ElevatedButton(
+              onPressed:() {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => KakaoLoginPage()),
+                );
+              },
+              child: Text("카카오 로그인"),
+            ),
+            
+            ElevatedButton(
+              onPressed:() {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => LoginDemo()),
+                );
+              },
+              child: Text("login demo"),
             ),
             Padding(
               child: TextField(

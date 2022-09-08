@@ -1,4 +1,4 @@
-package com.prj.travelRecord.repository;
+package com.prj.travelRecord.member.repository;
 
 import javax.persistence.EntityManager;
 

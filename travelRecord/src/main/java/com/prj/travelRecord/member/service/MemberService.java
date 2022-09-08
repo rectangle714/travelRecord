@@ -1,10 +1,10 @@
-package com.prj.travelRecord.service;
+package com.prj.travelRecord.member.service;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.prj.travelRecord.domain.Member;
-import com.prj.travelRecord.repository.MemberRepository;
+import  com.prj.travelRecord.member.repository.MemberRepository;
 
 import lombok.RequiredArgsConstructor;
 
