@@ -12,6 +12,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import lombok.Getter;
@@ -29,8 +30,15 @@ public class TravelDiary {
     @JoinColumn(name="travel_id")
     private TravelMaster travelMaster; 
 	
+	@OneToMany(fetch = FetchType.LAZY)
+    @JoinColumn(name="picture_id")
+    private TravelPicture TravelPicture; 
+	
 	@Column(name="title")
 	private String title;
+	
+	@Column(name="content")
+	private String content;
 	
 	@Enumerated(EnumType.STRING) 
     @Column(name="feelingIcon")
@@ -42,8 +50,6 @@ public class TravelDiary {
 	
 	@Column(name="travelDate")
 	private String travelDate;
-	
-	// 내용 어떻게 할지 생각해서 추가 -> html 그냥 db에 저장...? ** 그냥 자리 정해서 사진, 텍스트 받기로 함
 	
 	@Embedded
     private EntityInfo entityInfo; //등록일, 등록자, 수정일, 수정자

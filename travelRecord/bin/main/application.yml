@@ -1,18 +1,42 @@
 #h2 DB 설정
 spring:
+#  datasource:
+#    url: jdbc:h2:tcp://localhost/~/test
+#    username: sa
+#    password:
+#    driver-class-name: org.h2.Driver
   datasource:
-    url: jdbc:h2:tcp://localhost/~/test
-    username: sa
-    password:
-    driver-class-name: org.h2.Driver
+      url: jdbc:mysql://stam.iptime.org:5306/basicedu?serverTimezone=Asia/Seoul
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      username: basicedu
+      password: basicedu2020
 
 #JPA 설정
-jpa:
-  hibernate:
-    ddl-auto: create
-  properties:
+  jpa:
+    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+    open-in-view: false
     hibernate:
-      show_sql: true
-      format_sql: true
+      ddl-auto: update
+    properties:
+      hibernate:
+        show_sql: true
+        format_sql: true
+
 logging.level:
   org.hibernate.SQL: debug
+  
+#파일 업로드 관련
+#참고 https://kanetami.tistory.com/99
+  servlet:    
+    multipart:
+      file-size-threshold: 1MB
+      location: /Users/ebong/git/travelRecord/travelRecord/attachFile/diary      
+      max-file-size: 100MB
+      max-request-size: 100MB    
+      
+#보통 패스 지정하는건 아래처럼 하면 되는듯?
+#custom:
+#  path:
+#    image-dir : /Users/ebong/git/travelRecord/travelRecord/attachFile/diary
+    
+  

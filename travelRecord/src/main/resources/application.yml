@@ -16,7 +16,7 @@ spring:
     database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
     open-in-view: false
     hibernate:
-      ddl-auto: create
+      ddl-auto: update
     properties:
       hibernate:
         show_sql: true
@@ -24,3 +24,19 @@ spring:
 
 logging.level:
   org.hibernate.SQL: debug
+  
+#파일 업로드 관련
+#참고 https://kanetami.tistory.com/99
+  servlet:    
+    multipart:
+      file-size-threshold: 1MB
+      location: /Users/ebong/git/travelRecord/travelRecord/attachFile/diary      
+      max-file-size: 100MB
+      max-request-size: 100MB    
+      
+#보통 패스 지정하는건 아래처럼 하면 되는듯?
+#custom:
+#  path:
+#    image-dir : /Users/ebong/git/travelRecord/travelRecord/attachFile/diary
+    
+  
