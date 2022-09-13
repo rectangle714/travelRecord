@@ -1,8 +1,10 @@
-package com.prj.travelRecord.domain;
+package com.prj.travelRecord.repository;
 
 import java.util.List;
 
 import org.springframework.stereotype.Repository;
+
+import com.prj.travelRecord.domain.TravelDiary;
 
 @Repository
 public class TravelDiaryRepository {

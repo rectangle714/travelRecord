@@ -1,6 +1,6 @@
 package com.prj.travelRecord.domain;
 
-import java.time.LocalDateTime;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Embedded;
@@ -32,7 +32,7 @@ public class TravelDiary {
 	
 	@OneToMany(fetch = FetchType.LAZY)
     @JoinColumn(name="picture_id")
-    private TravelPicture TravelPicture; 
+    private List<TravelPicture> TravelPicture; 
 	
 	@Column(name="title")
 	private String title;

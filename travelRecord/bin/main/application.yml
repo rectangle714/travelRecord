@@ -21,16 +21,14 @@ spring:
       hibernate:
         show_sql: true
         format_sql: true
-
-logging.level:
-  org.hibernate.SQL: debug
-  
+        
+     
 #파일 업로드 관련
 #참고 https://kanetami.tistory.com/99
   servlet:    
     multipart:
       file-size-threshold: 1MB
-      location: /Users/ebong/git/travelRecord/travelRecord/attachFile/diary      
+      location: /Users/ebong/git/travelRecord/travelRecord/attachFile/diary/    
       max-file-size: 100MB
       max-request-size: 100MB    
       
@@ -39,4 +37,8 @@ logging.level:
 #  path:
 #    image-dir : /Users/ebong/git/travelRecord/travelRecord/attachFile/diary
     
+
+logging.level:
+  org.hibernate.SQL: debug
+ 
   

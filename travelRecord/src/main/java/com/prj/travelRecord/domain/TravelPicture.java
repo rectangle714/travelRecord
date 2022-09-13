@@ -28,9 +28,9 @@ public class TravelPicture {
     @Column(name="picture_id")
     private long id;
 	
-	@ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="diary_id")
-    private TravelDiary travelDiary;
+//	@ManyToOne(fetch = FetchType.LAZY)
+//    @JoinColumn(name="diary_id")
+//    private TravelDiary travelDiary;
 	
 	@Column(name="dp_seq")
 	private int dpSeq;

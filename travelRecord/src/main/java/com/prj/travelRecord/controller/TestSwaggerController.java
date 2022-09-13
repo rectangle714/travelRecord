@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.prj.travelRecord.domain.SwaggerTestUpdateUserForm;
 import com.prj.travelRecord.domain.SwaggerTestUser;
-import com.prj.travelRecord.domain.SwaggerTestUserRepository;
+import com.prj.travelRecord.repository.SwaggerTestUserRepository;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

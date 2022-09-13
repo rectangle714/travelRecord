@@ -1,4 +1,4 @@
-package com.prj.travelRecord.domain;
+package com.prj.travelRecord.repository;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -6,6 +6,9 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.stereotype.Repository;
+
+import com.prj.travelRecord.domain.SwaggerTestUpdateUserForm;
+import com.prj.travelRecord.domain.SwaggerTestUser;
 
 
 @Repository
