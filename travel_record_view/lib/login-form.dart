@@ -6,6 +6,13 @@ import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 
+import 'join-form.dart';
+
+
+tokenTestAction() async{
+    
+}
+
 class LoginDemo extends StatefulWidget {
   @override
   _LoginDemoState createState() => _LoginDemoState();
@@ -49,7 +56,7 @@ class _LoginDemoState extends State<LoginDemo> {
     print('${user_pw.text}');
     print('response.statusCode : ${response.statusCode}');
     print('response.body : ${response.body}');
-}
+  }
 
 
   @override
@@ -108,7 +115,7 @@ class _LoginDemoState extends State<LoginDemo> {
               },
               child: Text(
                 'Forgot Password',
-                style: TextStyle(color: Colors.blue, fontSize: 15),
+                style: TextStyle(color: Colors.blue, fontSize: 15)
               ),
             ),
             Container(
@@ -116,12 +123,7 @@ class _LoginDemoState extends State<LoginDemo> {
               width: 250,
               decoration: BoxDecoration(
                   color: Colors.blue, borderRadius: BorderRadius.circular(20)),
-                  child: FlatButton(
-                    // onPressed: () {
-                    //   Navigator.push(
-                    //       context, MaterialPageRoute(builder: (_) => HomePage())
-                    //   );
-                    // },
+                  child: ElevatedButton(
                     onPressed: loginAction,
                     child: Text(
                       'Login',
@@ -132,7 +134,18 @@ class _LoginDemoState extends State<LoginDemo> {
             SizedBox(
               height: 130,
             ),
-            Text('New User? Create Account')
+            FlatButton(
+              onPressed: (){
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => JoinForm()),
+                );
+              },
+              child: Text(
+                'Join Us',
+                style: TextStyle(color: Colors.black87, fontSize: 15)
+              ),
+            ),
           ],
         ),
       ),
