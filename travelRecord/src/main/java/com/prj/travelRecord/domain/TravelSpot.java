@@ -29,7 +29,7 @@ public class TravelSpot {
 	private String cat2;
 	private String cat3;	
 	@Column(name="content_type_id")
-	private int contenttypeId;
+	private int contentTypeId;
 	@Column(name="created_time")
 	private Date createdTime;
 	@Column(name="first_image")

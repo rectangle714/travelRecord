@@ -142,8 +142,8 @@ public class TravelSpotController {
 		    }
 	  
 	  
-	  @GetMapping("/keywordList")
-	    public ResponseEntity TourAPIKeyword(Model m, @RequestParam String keyword) throws IOException {
+	  @GetMapping(value= "/keywordList" ,produces="application/json;charset=UTF-8")
+	    public JSONArray TourAPIKeyword(Model m, @RequestParam String keyword) throws IOException {
 	        StringBuilder urlBuilder = new StringBuilder("http://api.visitkorea.or.kr/openapi/service/rest/KorService/searchKeyword"); /*URL*/
 	        urlBuilder.append("?" + URLEncoder.encode("ServiceKey", "UTF-8") + "=9rvlY4g%2BQNojvBPO73hCfQCO9R59a5jR6l57VYIWL7462sSGg5Ul4zLjG5d9GvFZKSgxjG0Bbu8RFMOWzB7SLA%3D%3D"); /*Service Key*/
 	        urlBuilder.append("&" + URLEncoder.encode("keyword", "UTF-8") + "=" + URLEncoder.encode(keyword, "UTF-8")); /*검색 요청할 키워드 (국문=인코딩 필요)*/
@@ -170,7 +170,31 @@ public class TravelSpotController {
 	        conn.disconnect();
 
 	        log.info("장소 검색 통신 성공 : "+keyword);
-			return new ResponseEntity(HttpStatus.OK);  
+	        log.info(sb.toString());
+	        
+	        String result = sb.toString();
+
+	        JSONParser parser = new JSONParser();
+	        Map<String,Object> map = new HashMap<>();
+	        
+	        try {
+				map = (Map<String, Object>) parser.parse( result );
+				map = (Map<String, Object>) parser.parse( map.get("response").toString() );
+			    map = (Map<String, Object>) parser.parse( map.get("body").toString() );
+			    map = (Map<String, Object>) parser.parse( map.get("items").toString() );
+			        
+			} catch (ParseException e) {
+				e.printStackTrace();
+			}
+	       
+	        JSONArray jsonArray = new JSONArray();
+	        try {
+	           jsonArray = (JSONArray) parser.parse(map.get("item").toString());
+	        } catch (ParseException e) {
+	           e.printStackTrace();
+	        }
+	        
+			return jsonArray;  
 	    }
 
 	  
