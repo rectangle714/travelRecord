@@ -1,5 +1,5 @@
 package com.prj.travelRecord.config.security;
-
+//import org.springframework.boot.autoconfigure.security.servlet.UserDetailsServiceAutoConfiguration;
 import java.security.Key;
 import java.util.Base64;
 import java.util.Date;
@@ -26,7 +26,7 @@ import lombok.RequiredArgsConstructor;
 @Component
 public class JwtTokenProvider {
 	
-	private String secretKey = "약오르지까꿍";
+	private String secretKey = "약오르지까꿍꿍까지르오약약오르지까꿍꿍까지르오약약오르지까꿍꿍까지르오약";
 
 	// 토큰 유효시간 30분
 	private long tokenValidTime = 30 * 60 * 1000L;
@@ -67,7 +67,7 @@ public class JwtTokenProvider {
 
 	// Request의 Header에서 token 값을 가져옵니다. "X-AUTH-TOKEN" : "TOKEN값'
 	public String resolveToken(HttpServletRequest request) {
-		return request.getHeader("X-AUTH-TOKEN");
+		return request.getHeader("authorization");
 	}
 
 	// 토큰의 유효성 + 만료일자 확인

@@ -1,24 +1,33 @@
 import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
 
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
+import 'package:travel_record_view/main.dart';
 
 import 'join-form.dart';
 
 
-tokenTestAction() async{
-    
+
+void showToast(String msg){
+  Fluttertoast.showToast(
+    msg: msg, fontSize: 13, backgroundColor: Colors.black, toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.BOTTOM);
 }
 
-class LoginDemo extends StatefulWidget {
+
+
+class Login extends StatefulWidget {
   @override
-  _LoginDemoState createState() => _LoginDemoState();
+  _LoginState createState() => _LoginState();
 }
 
-class _LoginDemoState extends State<LoginDemo> {
+class _LoginState extends State<Login> {
+
+  static final storage = FlutterSecureStorage();
 
   TextEditingController user_id = TextEditingController();
   TextEditingController user_pw = TextEditingController();
@@ -52,10 +61,20 @@ class _LoginDemoState extends State<LoginDemo> {
       },
       body: json.encode(body),
     );
-    print('${user_id.text}');
-    print('${user_pw.text}');
-    print('response.statusCode : ${response.statusCode}');
-    print('response.body : ${response.body}');
+    storage.deleteAll();
+    if('${response.body}' != null){
+      storage.write(key: 'token', value: '${response.body}');
+    }
+    
+
+    Map<String, String> tokenMap = await storage.readAll();
+  
+    if(tokenMap.containsKey('token')){
+      Navigator.pushReplacement(context, MaterialPageRoute(builder: (BuildContext context) => MyApp()));
+    }else{
+      showToast('로그인 실패');
+    }
+    
   }
 
 

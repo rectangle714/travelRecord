@@ -1,7 +1,9 @@
 import 'dart:developer';
-import 'dart:io' show Platform;
+
+import 'dart:io' show HttpHeaders, Platform;
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart' as http;
 import 'kakaoLogin.dart';
 import 'login-form.dart';
@@ -12,7 +14,6 @@ void main() {
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
-
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
@@ -35,11 +36,12 @@ class MyApp extends StatelessWidget {
   }
 }
 
+  
+
 class MyHomePage extends StatefulWidget {
   const MyHomePage({Key? key, required this.title}) : super(key: key);
-
   void testAjax() async {
-
+    
     var host;
     if(kIsWeb){
       host = '127.0.0.1';
@@ -64,6 +66,8 @@ class MyHomePage extends StatefulWidget {
 
     print('response.statusCode : ${response.statusCode}');
     print('response.body : ${response.body}');
+
+    
   }
 
   final String title;
@@ -75,6 +79,37 @@ class MyHomePage extends StatefulWidget {
 
 
 class _MyHomePageState extends State<MyHomePage> {
+
+  static final storage = FlutterSecureStorage();
+  var loginBtn;
+
+  Future<String> fetch() async {
+    var tokenOrNot = await storage.read(key: "token");
+    print(tokenOrNot);
+
+    if (tokenOrNot == null) {
+      loginBtn = ElevatedButton(
+              onPressed:() {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => Login()),
+                );
+              },
+              child: Text("login"),
+            );
+    }else{
+      loginBtn = ElevatedButton(
+              onPressed:() {
+                storage.deleteAll();
+                Navigator.pushReplacement(context, MaterialPageRoute(builder: (BuildContext context) => MyApp()));
+              },
+              child: Text("logout"),
+            );
+      showToast('로그인 실패');
+    }
+    return tokenOrNot.toString();
+  }
+
   int _counter = 0;
 
   void _incrementCounter() {
@@ -88,78 +123,91 @@ class _MyHomePageState extends State<MyHomePage> {
 
     void secTest() async {
 
-    var host;
-    if(kIsWeb){
-      host = '127.0.0.1';
-    }
-    else{
-      host = Platform.isAndroid ? '10.0.2.2' : '127.0.0.1'; 
-      log('not web');
-    }
+      var host;
 
-      var url = Uri.parse('http://$host:8080/sec');
-      log('http://$host:8080/sec');
-      var response = await http.get(url);
+      if(kIsWeb){
+        host = '127.0.0.1';
+      }
+      else{
+        host = Platform.isAndroid ? '10.0.2.2' : '127.0.0.1'; 
+        log('not web');
+      }
 
-      print('response.statusCode : ${response.statusCode}');
-      print('response.body : ${response.body}');
+        var url = Uri.parse('http://$host:8080/sec');
+        Map<String,String> tokenMap = await storage.readAll();
+        String tokenString = '${tokenMap['token']}';
+        
+        print('tokenString>>>'+tokenString);
+
+        log('http://$host:8080/sec');
+        var response = await http.get(url,
+          headers: {
+            HttpHeaders.authorizationHeader: tokenString,
+          },
+        );
+
+        print('response.statusCode : ${response.statusCode}');
+        print('response.body : ${response.body}');
+        
     
   }
 
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text(
-              '카운트 추가',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headline4,
-            ),
-            ElevatedButton(
-              onPressed: widget.testAjax,
-              child: Text("api 통신 테스트 버튼"),
-            ),
-            ElevatedButton(
-              onPressed:() {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => KakaoLoginPage()),
-                );
-              },
-              child: Text("카카오 로그인"),
-            ),
-            
-            ElevatedButton(
-              onPressed:() {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => LoginDemo()),
-                );
-              },
-              child: Text("login demo"),
-            ),
-            Padding(
-              child: TextField(
-                decoration: InputDecoration(
-                  labelText: 'ID',
-                ),
+  return Scaffold(
+    appBar: AppBar(
+      title: Text(widget.title),
+    ),
+    body: Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          const Text(
+            '카운트 추가',
+          ),
+          Text(
+            '$_counter',
+            style: Theme.of(context).textTheme.headline4,
+          ),
+          ElevatedButton(
+            onPressed: widget.testAjax,
+            child: Text("api 통신 테스트 버튼"),
+          ),
+          ElevatedButton(
+            // onPressed:() {
+            //   Navigator.push(
+            //     context,
+            //     MaterialPageRoute(builder: (context) => KakaoLoginPage()),
+            //   );
+            // },
+            // child: Text("카카오 로그인"),
+            onPressed: secTest,
+            child: Text('sec test')
+          ),
+          FutureBuilder(
+            future: fetch(),
+            builder: (BuildContext context, AsyncSnapshot snapshot) {
+              if(!snapshot.hasData){
+                return Text('로그인체크');
+              }else{
+                return loginBtn;
+              }
+            }
+          ),
+          Padding(
+            child: TextField(
+              decoration: InputDecoration(
+                labelText: 'ID',
               ),
-              padding: EdgeInsets.all(20.0),
             ),
-          ],
-        ),
+            padding: EdgeInsets.all(20.0),
+          ),
+        ],
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ),
-    );
-  }
+    ),
+    floatingActionButton: FloatingActionButton(
+      onPressed: _incrementCounter,
+      tooltip: 'Increment',
+      child: const Icon(Icons.add),
+    ),
+  );
+}
 }
