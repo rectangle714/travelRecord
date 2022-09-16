@@ -84,7 +84,9 @@ class _MyHomePageState extends State<MyHomePage> {
                             border: OutlineInputBorder(),
                             contentPadding: EdgeInsets.all(3)),
                         onSubmitted: (value) async {
-                          widget.sendKeyword(value);
+                          setState(() {
+                            widget.sendKeyword(value);
+                          });
                         },
                       ),
                     )
@@ -103,19 +105,39 @@ class _MyHomePageState extends State<MyHomePage> {
                                 width: 100,
                                 height: 200,
                                 padding: EdgeInsets.all(20),
-                                child: Row(children: [
-                                  Image.network(
-                                      spotList[index]['firstimage'] =
-                                          spotList[index]['firstimage'] ??
+                                child: SingleChildScrollView(
+                                  scrollDirection: Axis.horizontal,
+                                  child: Row(children: [
+                                    SingleChildScrollView(
+                                      child: Column(
+                                        children: [
+                                          Image.network(
+                                              spotList[index]['firstimage'] ??
+                                                  'lib/asstes/noImage.jpg',
+                                              height: 100,
+                                              width: 100, errorBuilder:
+                                                  ((BuildContext context,
+                                                      Object error,
+                                                      stackTrace) {
+                                            return Image.asset(
                                               'lib/asstes/noImage.jpg',
-                                      errorBuilder: ((BuildContext context,
-                                          Object error, stackTrace) {
-                                    return Image.asset(
-                                      'lib/asstes/noImage.jpg',
-                                      fit: BoxFit.cover,
-                                    );
-                                  })),
-                                ]),
+                                              fit: BoxFit.cover,
+                                            );
+                                          })),
+                                        ],
+                                      ),
+                                    ),
+                                    Column(
+                                      children: [
+                                        Text(spotList[index]['title']),
+                                        Text(spotList[index]['addr1'] ??
+                                            '' + spotList[index]['addr12'] ??
+                                            ''),
+                                        Text(spotList[index]['tel'] ?? ''),
+                                      ],
+                                    ),
+                                  ]),
+                                ),
                               );
                             }))
                   ],

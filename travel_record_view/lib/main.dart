@@ -3,7 +3,7 @@ import 'dart:io' show Platform;
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'travelSpot.dart' as travelSpot;
+import 'travelSpot/travelSpot.dart' as travelSpot;
 
 void main() {
   runApp(const MyApp());
