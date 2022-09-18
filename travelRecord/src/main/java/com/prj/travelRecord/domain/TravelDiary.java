@@ -13,6 +13,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import lombok.Getter;
@@ -20,20 +21,23 @@ import lombok.Setter;
 
 @Entity
 @Getter @Setter
-@Table(name="TRAVEL_DIARY")
+@Table(name="tr_diary")
 public class TravelDiary {
 	@Id @GeneratedValue
     @Column(name="diary_id")
     private long id;
 	
-	@ManyToOne(fetch = FetchType.LAZY)
+	@OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="travel_id")
     private TravelMaster travelMaster; 
 	
-	@OneToMany(fetch = FetchType.LAZY)
-    @JoinColumn(name="picture_id")
-    private List<TravelPicture> TravelPicture; 
-	
+//	@OneToMany(fetch = FetchType.LAZY)
+//    @JoinColumn(name="picture_id")
+//    private List<TravelPicture> TravelPicture;
+
+	@Column(name="travelDate")
+	private String travelDate;
+
 	@Column(name="title")
 	private String title;
 	
@@ -47,10 +51,7 @@ public class TravelDiary {
 	@Enumerated(EnumType.STRING) 
     @Column(name="weather")
 	private Weather weather;
-	
-	@Column(name="travelDate")
-	private String travelDate;
-	
+
 	@Embedded
     private EntityInfo entityInfo; //등록일, 등록자, 수정일, 수정자
 

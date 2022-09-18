@@ -13,9 +13,9 @@ public class ResultMap {
 	
 	private String result;
 	
-	private String data;
+	private Object data;
 
-	public ResultMap(HttpStatus status, String result, String data) {
+	public ResultMap(HttpStatus status, String result, Object data) {
 		this.status = status;
 		this.result = result;
 		this.data = data;
