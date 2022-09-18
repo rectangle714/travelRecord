@@ -4,6 +4,8 @@ import 'dart:io' show Platform;
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import '../design/travelSpotTheme.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 void main() {
   runApp(const travelSpot());
@@ -101,42 +103,179 @@ class _MyHomePageState extends State<MyHomePage> {
                             itemCount: spotList.length,
                             itemBuilder: (BuildContext context, int index) {
                               return Container(
-                                margin: EdgeInsets.only(top: 20),
-                                width: 100,
-                                height: 200,
-                                padding: EdgeInsets.all(20),
-                                child: SingleChildScrollView(
-                                  scrollDirection: Axis.horizontal,
-                                  child: Row(children: [
-                                    SingleChildScrollView(
-                                      child: Column(
-                                        children: [
-                                          Image.network(
-                                              spotList[index]['firstimage'] ??
-                                                  'lib/asstes/noImage.jpg',
-                                              height: 100,
-                                              width: 100, errorBuilder:
-                                                  ((BuildContext context,
-                                                      Object error,
-                                                      stackTrace) {
-                                            return Image.asset(
-                                              'lib/asstes/noImage.jpg',
-                                              fit: BoxFit.cover,
-                                            );
-                                          })),
+                                decoration: BoxDecoration(
+                                  borderRadius: const BorderRadius.all(
+                                      Radius.circular(16.0)),
+                                  boxShadow: <BoxShadow>[
+                                    BoxShadow(
+                                      color: Colors.grey.withOpacity(0.6),
+                                      offset: const Offset(4, 4),
+                                      blurRadius: 16,
+                                    ),
+                                  ],
+                                ),
+                                child: ClipRRect(
+                                  borderRadius: const BorderRadius.all(
+                                      Radius.circular(16.0)),
+                                  child: Stack(
+                                    children: <Widget>[
+                                      Column(
+                                        children: <Widget>[
+                                          AspectRatio(
+                                            aspectRatio: 2,
+                                            child: Image.network(
+                                                spotList[index]['firstimage'] ??
+                                                    'lib/asstes/noImage.jpg',
+                                                errorBuilder:
+                                                    ((BuildContext context,
+                                                        Object error,
+                                                        stackTrace) {
+                                              return Image.asset(
+                                                'lib/asstes/noImage.jpg',
+                                                fit: BoxFit.cover,
+                                              );
+                                            })),
+                                          ),
+                                          Container(
+                                            color: travelSpotTheme
+                                                .buildLightTheme()
+                                                .backgroundColor,
+                                            child: Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: <Widget>[
+                                                Expanded(
+                                                  child: Container(
+                                                    child: Padding(
+                                                      padding:
+                                                          const EdgeInsets.only(
+                                                              left: 16,
+                                                              top: 8,
+                                                              bottom: 8),
+                                                      child: Column(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .center,
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .start,
+                                                        children: <Widget>[
+                                                          Text(
+                                                            spotList[index]
+                                                                ['title'],
+                                                            textAlign:
+                                                                TextAlign.left,
+                                                            style: TextStyle(
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w600,
+                                                              fontSize: 22,
+                                                            ),
+                                                          ),
+                                                          Row(
+                                                            crossAxisAlignment:
+                                                                CrossAxisAlignment
+                                                                    .center,
+                                                            mainAxisAlignment:
+                                                                MainAxisAlignment
+                                                                    .start,
+                                                            children: <Widget>[
+                                                              const SizedBox(
+                                                                width: 4,
+                                                              ),
+                                                              Icon(
+                                                                FontAwesomeIcons
+                                                                    .locationDot,
+                                                                size: 12,
+                                                                color: travelSpotTheme
+                                                                    .buildLightTheme()
+                                                                    .primaryColor,
+                                                              ),
+                                                              Expanded(
+                                                                child: Text(
+                                                                  spotList[index]
+                                                                          [
+                                                                          'addr1'] ??
+                                                                      '' +
+                                                                          spotList[index]
+                                                                              [
+                                                                              'addr12'] ??
+                                                                      '',
+                                                                  overflow:
+                                                                      TextOverflow
+                                                                          .ellipsis,
+                                                                  style: TextStyle(
+                                                                      fontSize:
+                                                                          14,
+                                                                      color: Colors
+                                                                          .grey
+                                                                          .withOpacity(
+                                                                              0.8)),
+                                                                ),
+                                                              ),
+                                                            ],
+                                                          ),
+                                                          Padding(
+                                                            padding:
+                                                                const EdgeInsets
+                                                                        .only(
+                                                                    top: 4),
+                                                            child: Row(
+                                                              children: <
+                                                                  Widget>[],
+                                                            ),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                                Padding(
+                                                  padding:
+                                                      const EdgeInsets.only(
+                                                          right: 16, top: 8),
+                                                  child: Column(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .center,
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment.end,
+                                                    children: <Widget>[],
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
                                         ],
                                       ),
-                                    ),
-                                    Column(
-                                      children: [
-                                        Text(spotList[index]['title']),
-                                        Text(spotList[index]['addr1'] ??
-                                            '' + spotList[index]['addr12'] ??
-                                            ''),
-                                        Text(spotList[index]['tel'] ?? ''),
-                                      ],
-                                    ),
-                                  ]),
+                                      Positioned(
+                                        top: 8,
+                                        right: 8,
+                                        child: Material(
+                                          color: Colors.transparent,
+                                          child: InkWell(
+                                            borderRadius:
+                                                const BorderRadius.all(
+                                              Radius.circular(32.0),
+                                            ),
+                                            onTap: () {},
+                                            child: Padding(
+                                              padding:
+                                                  const EdgeInsets.all(8.0),
+                                              child: Icon(
+                                                Icons.favorite_border,
+                                                color: travelSpotTheme
+                                                    .buildLightTheme()
+                                                    .primaryColor,
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      )
+                                    ],
+                                  ),
                                 ),
                               );
                             }))
