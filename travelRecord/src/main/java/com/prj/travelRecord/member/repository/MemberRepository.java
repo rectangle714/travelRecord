@@ -1,25 +1,15 @@
 package com.prj.travelRecord.member.repository;
 
-import javax.persistence.EntityManager;
+import java.util.Optional;
 
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import com.prj.travelRecord.domain.Member;
 
-import lombok.RequiredArgsConstructor;
-
 @Repository
-@RequiredArgsConstructor
-public class MemberRepository {
+public interface MemberRepository extends JpaRepository<Member, Long>{
 
-	private final EntityManager em;
-
-	public void save(Member member) {
-		em.persist(member);
-	}
-	
-	public Member findOne(Long id){
-        return em.find(Member.class, id);
-    }
+	Optional<Member> findByLoginId(String username);
 
 }

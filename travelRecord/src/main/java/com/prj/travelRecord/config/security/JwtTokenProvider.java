@@ -8,11 +8,16 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Component;
+
+import com.prj.travelRecord.domain.MemberRole;
+import com.prj.travelRecord.member.service.MemberService;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
@@ -26,11 +31,20 @@ import lombok.RequiredArgsConstructor;
 @Component
 public class JwtTokenProvider {
 	
-	private String secretKey = "약오르지까꿍꿍까지르오약약오르지까꿍꿍까지르오약약오르지까꿍꿍까지르오약";
+	//private String secretKey = "약오르지까꿍꿍까지르오약약오르지까꿍꿍까지르오약약오르지까꿍꿍까지르오약";
+	@Value("${jwt.secret}")
+	private String secretKey;
 
 	// 토큰 유효시간 30분
 	private long tokenValidTime = 30 * 60 * 1000L;
-	private final UserDetailsService userDetailsService;
+	private final MemberService memberService;
+	
+//	private final UserDetailsService userDetailsService;
+//	
+//	public JwtTokenProvider(@Lazy UserDetailsService userDetailsService) {
+//		this.userDetailsService = userDetailsService;
+//	}
+	
 
 	// 객체 초기화, secretKey를 Base64로 인코딩한다.
 	@PostConstruct
@@ -39,9 +53,9 @@ public class JwtTokenProvider {
 	}
 
 	// JWT 토큰 생성
-	public String createToken(String userPk, List<String> roles) {
-		Claims claims = Jwts.claims().setSubject(userPk); // JWT payload 에 저장되는 정보단위
-		claims.put("roles", roles); // 정보는 key / value 쌍으로 저장된다.
+	public String createToken(String loginId, MemberRole role) {
+		Claims claims = Jwts.claims().setSubject(loginId); // JWT payload 에 저장되는 정보단위
+		claims.put("roles", role); // 정보는 key / value 쌍으로 저장된다.
 		Date now = new Date();
 		byte[] keyBytes = Decoders.BASE64.decode(secretKey);
 		Key key = Keys.hmacShaKeyFor(keyBytes);
@@ -56,7 +70,7 @@ public class JwtTokenProvider {
 
 	// JWT 토큰에서 인증 정보 조회
 	public Authentication getAuthentication(String token) {
-		UserDetails userDetails = userDetailsService.loadUserByUsername(this.getUserPk(token));
+		UserDetails userDetails = memberService.loadUserByUsername(this.getUserPk(token));
 		return new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
 	}
 
@@ -79,4 +93,6 @@ public class JwtTokenProvider {
 			return false;
 		}
 	}
+
+	
 }

@@ -13,12 +13,15 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.prj.travelRecord.member.vo.MemberDTO;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
 @Getter @Setter
+@NoArgsConstructor
 public class Member implements UserDetails{
 	
 	@Id @GeneratedValue
@@ -94,7 +97,7 @@ public class Member implements UserDetails{
 	 */
 	@Builder
     public Member(String loginId, String loginPw, String name, String nick, String mobile, String email, String birth
-    		,Gender gender,MemberStatus memberStatus, MemberRole role, EntityInfo entityInfo, LocalDateTime lastLogin, int agree ) {
+    		,Gender gender, MemberStatus memberStatus, MemberRole role, EntityInfo entityInfo, LocalDateTime lastLogin, int agree ) {
         this.loginId = loginId;
         this.loginPw = loginPw;
         this.name = name;
@@ -111,6 +114,14 @@ public class Member implements UserDetails{
     }
 
     public static Member createMember(MemberDTO newMember, PasswordEncoder passwordEncoder) {
+    	
+    	EntityInfo entityInfo = new EntityInfo();
+    	LocalDateTime localDateTime = LocalDateTime.now();
+    	entityInfo.setRegisterId(newMember.getLoginId());
+    	entityInfo.setUpdateId(newMember.getLoginId());
+    	entityInfo.setRegisterDate(localDateTime);
+    	entityInfo.setUpdateDate(localDateTime);
+    	
         Member member = Member.builder()
                 .loginId(newMember.getLoginId())
                 .loginPw(passwordEncoder.encode(newMember.getLoginPw()))
@@ -122,10 +133,11 @@ public class Member implements UserDetails{
                 .gender(newMember.getGender())
                 .memberStatus(MemberStatus.ACTIVE)
                 .role(MemberRole.USER)
-                .entityInfo(newMember.getEntityInfo())
-                .lastLogin(newMember.getLastLogin())
+                .entityInfo(entityInfo)
+                .lastLogin(localDateTime)
                 .agree(newMember.getAgree())
                 .build();
+        
         return member;
     }
 	 

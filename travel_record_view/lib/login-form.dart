@@ -49,8 +49,8 @@ class _LoginState extends State<Login> {
 
     var url = Uri.parse('http://$host:8080/login');
     Map<String,String> body = {
-        'id': '${user_id.text}',
-        'pw': '${user_pw.text}'
+        'loginId': '${user_id.text}',
+        'loginPw': '${user_pw.text}'
     };
 
     log('http://$host:8080/login');

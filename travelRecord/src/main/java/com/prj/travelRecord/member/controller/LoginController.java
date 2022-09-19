@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.prj.travelRecord.config.security.JwtTokenProvider;
 import com.prj.travelRecord.domain.Member;
+import com.prj.travelRecord.member.repository.MemberRepository;
 import com.prj.travelRecord.member.service.MemberService;
 import com.prj.travelRecord.member.vo.MemberDTO;
 
@@ -30,6 +31,9 @@ public class LoginController {
 	private final JwtTokenProvider jwtTokenProvider;
 	
 	private final MemberService memberService;
+	private final MemberRepository memberRepository;
+	
+	private final BCryptPasswordEncoder passwordEncoder;
 
 	@GetMapping("/sec")
 	public ResponseEntity sec() {
@@ -38,14 +42,20 @@ public class LoginController {
 	}
 
 	@PostMapping(value="/login", produces="application/json;charset=UTF-8")
-	public String loginAction(@RequestBody Map<String, Object> requestData) {
-		log.info("로그인 시작");
-		String username = requestData.get("id").toString();
-		List<String> roles = new ArrayList<>();
-		roles.add("USER");
+	public String loginAction(@RequestBody Map<String, Object> requestData) throws IllegalArgumentException{
+		
+		Member member = memberRepository.findByLoginId(requestData.get("loginId").toString())
+                .orElseThrow(() -> new IllegalArgumentException("사용자를 찾을 수 없습니다."));
+		
+		String oriPw = requestData.get("loginPw").toString();
+		
+        if (!passwordEncoder.matches(requestData.get("loginPw").toString(), member.getLoginPw())) {
+            throw new IllegalArgumentException("비밀번호가 틀렸습니다.");
+        }
+
 		String token = null;
 	
-		token = jwtTokenProvider.createToken(username, roles);
+		token = jwtTokenProvider.createToken(member.getLoginId(), member.getRole());
 
 		return token;
 	}
@@ -54,8 +64,8 @@ public class LoginController {
 	public Long join(@RequestBody MemberDTO requestData) {
 		log.info("회원가입 시작");
 		
-		PasswordEncoder enc = new BCryptPasswordEncoder();
-		Member newMember = Member.createMember(requestData, enc);
+		
+		Member newMember = Member.createMember(requestData, passwordEncoder);
 	  
 		Long id = memberService.join(newMember); 
 		
