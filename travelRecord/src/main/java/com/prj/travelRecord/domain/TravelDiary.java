@@ -35,7 +35,7 @@ public class TravelDiary {
 //    @JoinColumn(name="picture_id")
 //    private List<TravelPicture> TravelPicture;
 
-	@Column(name="travelDate")
+	@Column(name="travel_date")
 	private String travelDate;
 
 	@Column(name="title")
@@ -45,7 +45,7 @@ public class TravelDiary {
 	private String content;
 	
 	@Enumerated(EnumType.STRING) 
-    @Column(name="feelingIcon")
+    @Column(name="feeling_icon")
 	private FeelingIcon feelingIcon;
 	
 	@Enumerated(EnumType.STRING) 
