@@ -4,6 +4,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'travel_board.dart' as travel_board;
+import 'travelSpot/travelSpot.dart' as travelSpot;
 
 void main() {
   runApp(const MyApp());
@@ -32,7 +33,6 @@ class MyHomePage extends StatefulWidget {
 
   void testAjax() async {
     var host;
-
     if (kIsWeb) {
       host = '127.0.0.1';
     } else {
@@ -92,6 +92,13 @@ class _MyHomePageState extends State<MyHomePage> {
                 Navigator.pushNamed(context, '/second');
               },
             ),
+            ElevatedButton(
+              child: Text("페이지 이동"),
+              onPressed: () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (_) => travelSpot.travelSpot()));
+              },
+            )
           ],
         ),
       ),
@@ -101,5 +108,17 @@ class _MyHomePageState extends State<MyHomePage> {
         child: const Icon(Icons.add),
       ),
     );
+  }
+}
+
+class HexColor extends Color {
+  HexColor(final String hexColor) : super(_getColorFromHex(hexColor));
+
+  static int _getColorFromHex(String hexColor) {
+    hexColor = hexColor.toUpperCase().replaceAll('#', '');
+    if (hexColor.length == 6) {
+      hexColor = 'FF' + hexColor;
+    }
+    return int.parse(hexColor, radix: 16);
   }
 }

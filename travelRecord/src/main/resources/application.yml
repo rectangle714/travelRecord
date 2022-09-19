@@ -27,4 +27,3 @@ server:
   encoding:
    force: true
    charset: UTF-8
-   
