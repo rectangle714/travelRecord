@@ -6,7 +6,7 @@ spring:
 #    password:
 #    driver-class-name: org.h2.Driver
   datasource:
-      url: jdbc:mysql://stam.iptime.org:5306/basicedu?serverTimezone=Asia/Seoul
+      url: jdbc:mysql://stam.iptime.org:5306/travelrecord?serverTimezone=Asia/Seoul
       driver-class-name: com.mysql.cj.jdbc.Driver
       username: basicedu
       password: basicedu2020
@@ -28,7 +28,10 @@ spring:
   servlet:    
     multipart:
       file-size-threshold: 1MB
-      location: /Users/ebong/git/travelRecord/travelRecord/attachFile/diary/    
+      # 이보영 mac
+      #location: /Users/ebong/git/travelRecord/travelRecord/attachFile/diary/   
+      # 이보영 회사pc 
+      location: C:\Users\stam\git\travelRecord\travelRecord\attachFile/diary/
       max-file-size: 100MB
       max-request-size: 100MB    
       
