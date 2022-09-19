@@ -22,6 +22,7 @@ import lombok.Setter;
 @Entity
 @Getter @Setter
 @NoArgsConstructor
+@Table(name="tr_member")
 public class Member implements UserDetails{
 	
 	@Id @GeneratedValue
