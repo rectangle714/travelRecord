@@ -19,7 +19,7 @@ import lombok.Setter;
 
 @Entity
 @Getter @Setter
-@Table(name="TRAVEL_MASTER")
+@Table(name="tr_master")
 public class TravelMaster {
 	@Id @GeneratedValue
     @Column(name="travel_id")

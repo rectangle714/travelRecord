@@ -14,9 +14,28 @@ spring:
       driver-class-name: com.mysql.cj.jdbc.Driver
       username: basicedu
       password: basicedu2020
-
+      
+#파일 업로드 관련
+#참고 https://kanetami.tistory.com/99
+  servlet:    
+    multipart:
+      file-size-threshold: 1MB
+      # 이보영 mac
+      #location: /Users/ebong/git/travelRecord/travelRecord/attachFile/diary/   
+      # 이보영 회사pc 
+      location: C:\Users\stam\git\travelRecord\travelRecord\attachFile/diary/
+      max-file-size: 100MB
+      max-request-size: 100MB    
+      
+#보통 패스 지정하는건 아래처럼 하면 되는듯?
+#custom:
+#  path:
+#    image-dir : /Users/ebong/git/travelRecord/travelRecord/attachFile/diary
+        
 #JPA 설정
 jpa:
+  #database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+  #open-in-view: false
   hibernate:
     ddl-auto: update #create-drop
   properties:
@@ -38,4 +57,4 @@ jwt:
   #echo 'silvernine-tech-spring-boot-jwt-tutorial-secret-silvernine-tech-spring-boot-jwt-tutorial-secret'|base64
   secret: c2lsdmVybmluZS10ZWNoLXNwcmluZy1ib290LWp3dC10dXRvcmlhbC1zZWNyZXQtc2lsdmVybmluZS10ZWNoLXNwcmluZy1ib290LWp3dC10dXRvcmlhbC1zZWNyZXQK
   token-validity-in-seconds: 86400
-
+  
