@@ -4,7 +4,6 @@ import 'dart:io' show Platform;
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'page_change_b.dart' as page_change_b;
 
 class TravelBoardPage extends StatefulWidget {
   @override
@@ -13,7 +12,7 @@ class TravelBoardPage extends StatefulWidget {
 
 class TravelBoardState extends State<TravelBoardPage> {
   var host;
-  List data = [];
+  List dataList = [];
 
   Future<String> getList() async {
     if (kIsWeb) {
@@ -25,9 +24,8 @@ class TravelBoardState extends State<TravelBoardPage> {
     var response = await http.post(Uri.parse('http://$host:8080/diary/list'),
         body: {'title': 'testTitle'});
     if (response.statusCode == 200) {
-      data = json.decode(response.body);
-      log('성공');
-      log('${data}');
+      dataList = json.decode(response.body);
+      log('${dataList}');
       return '성공';
     } else {
       throw Exception('API 호출에러');
@@ -37,7 +35,7 @@ class TravelBoardState extends State<TravelBoardPage> {
   @override
   void initState() {
     super.initState();
-    this.getList();
+    getList();
   }
 
   @override
@@ -56,7 +54,6 @@ class TravelBoardState extends State<TravelBoardPage> {
                 padding: EdgeInsets.fromLTRB(0, 20, 0, 0),
                 color: Colors.blue,
                 width: 420,
-                height: 5,
                 child: Text('다가오는 여행'),
               ),
             ),
@@ -64,7 +61,6 @@ class TravelBoardState extends State<TravelBoardPage> {
               child: Container(
                 color: Colors.red,
                 width: 420,
-                height: 5,
                 child: Text('지난 여행기록'),
               ),
             ),
@@ -84,9 +80,9 @@ class TravelBoardState extends State<TravelBoardPage> {
             //     }),
             Expanded(
                 child: ListView.builder(
-              itemCount: data == null ? 0 : data.length,
+              itemCount: dataList == null ? 0 : dataList.length,
               itemBuilder: (BuildContext context, int index) {
-                return new Text(data[index]["content"]);
+                return new Text(dataList[index]["content"]);
               },
             ))
           ],

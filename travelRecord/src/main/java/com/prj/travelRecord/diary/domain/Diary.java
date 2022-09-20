@@ -1,20 +1,13 @@
 package com.prj.travelRecord.diary.domain;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import com.prj.travelRecord.domain.EntityInfo;
-import com.prj.travelRecord.domain.TravelMaster;
+import org.hibernate.boot.jaxb.hbm.spi.EntityInfo;
 
 import lombok.Data;
 
