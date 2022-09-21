@@ -39,7 +39,21 @@ class JoinFormState extends State<JoinForm> {
 
     Map<String,String> body = {
         'loginId': '${login_id.text}',
-        'loginPw': '${login_pw.text}'
+        'loginPw': '${login_pw.text}',
+        // 'name': '${name.text}',
+        // 'nick': '${nick.text}',
+        // 'mobile': '${mobile.text}',
+        // 'email': '${email.text}',
+        // 'birth': '${birth.text}',
+        // 'gender': '${gender.text}',
+        // 'agree': '${agree.text}'
+        'name': '박소영',
+        'nick': '소바리',
+        'mobile': '010-0000-0000',
+        'email': 'aaa@aaa.com',
+        'birth': '1992-09-23',
+        'gender': 'FEMALE',
+        'agree': '1'
     };
     
     response = await http.post(
@@ -47,7 +61,9 @@ class JoinFormState extends State<JoinForm> {
       headers: <String, String> {
           'Content-Type': 'application/json',
       },
-      body: json.encode(body),
+      body: {
+        'id' : '${login_id.text}',
+      },
     );
 
     
@@ -102,8 +118,6 @@ class JoinFormState extends State<JoinForm> {
                   left: 15.0, right: 15.0, top: 5),
               //padding: EdgeInsets.symmetric(horizontal: 15),
               child: TextField(
-
-                obscureText: true,
                 decoration: InputDecoration(
                     border: OutlineInputBorder(),
                     labelText: 'Name',
@@ -117,8 +131,6 @@ class JoinFormState extends State<JoinForm> {
                   left: 15.0, right: 15.0, top: 5),
               //padding: EdgeInsets.symmetric(horizontal: 15),
               child: TextField(
-
-                obscureText: true,
                 decoration: InputDecoration(
                     border: OutlineInputBorder(),
                     labelText: 'Nick',
@@ -132,7 +144,6 @@ class JoinFormState extends State<JoinForm> {
                   left: 15.0, right: 15.0, top: 5),
               //padding: EdgeInsets.symmetric(horizontal: 15),
               child: TextField(
-                obscureText: true,
                 decoration: InputDecoration(
                     border: OutlineInputBorder(),
                     labelText: 'Mobile',
@@ -146,7 +157,6 @@ class JoinFormState extends State<JoinForm> {
                   left: 15.0, right: 15.0, top: 5),
               //padding: EdgeInsets.symmetric(horizontal: 15),
               child: TextField(
-                obscureText: true,
                 decoration: InputDecoration(
                     border: OutlineInputBorder(),
                     labelText: 'Email',
@@ -160,7 +170,6 @@ class JoinFormState extends State<JoinForm> {
                   left: 15.0, right: 15.0, top: 5),
               //padding: EdgeInsets.symmetric(horizontal: 15),
               child: TextField(
-                obscureText: true,
                 decoration: InputDecoration(
                     border: OutlineInputBorder(),
                     labelText: 'Birth',
@@ -174,7 +183,6 @@ class JoinFormState extends State<JoinForm> {
                   left: 15.0, right: 15.0, top: 5),
               //padding: EdgeInsets.symmetric(horizontal: 15),
               child: TextField(
-                obscureText: true,
                 decoration: InputDecoration(
                     border: OutlineInputBorder(),
                     labelText: 'Gender',
@@ -188,13 +196,12 @@ class JoinFormState extends State<JoinForm> {
                   left: 15.0, right: 15.0, top: 5),
               //padding: EdgeInsets.symmetric(horizontal: 15),
               child: TextField(
-                obscureText: true,
                 decoration: InputDecoration(
                     border: OutlineInputBorder(),
                     labelText: 'Agree',
                     hintText: '동의를 입력해주세요.'
                 ),
-                controller: gender
+                controller: agree
               ),
             ),
             Container(
